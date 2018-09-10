@@ -8,5 +8,5 @@ https://sbn.psi.edu/pds/resource/itokawashape.html
 https://sbn.psi.edu/pds/resource/bennushape.html  
 https://sbn.psi.edu/pds/resource/erosshape.html  
 
-iso2mesh library is required to run this program.
+iso2mesh library is required to run this program.  
 http://iso2mesh.sourceforge.net/cgi-bin/index.cgi
