@@ -1,4 +1,4 @@
-function ReconstructAsteroid(v,f,keepratio,maxvol)
+function ReconstructAsteroid(v,f,keepratio,maxvol,par_flg)
 
 tic
 
@@ -20,15 +20,29 @@ dm = (1.95E+3*vol); % density is equal to the average bulk density of 25143 Itok
 
 x = fcentroid(:,1); y = fcentroid(:,2); z = fcentroid(:,3);
 slope = zeros(fnum,1);
-parfor i =1:fnum
-    fpoint = [x(i)*ones(elemnum,1), y(i)*ones(elemnum,1), z(i)*ones(elemnum,1)];
-    dR = (centroid-fpoint);
-    norm_dR = (dR(:,1).^2+dR(:,2).^2+dR(:,3).^2).^0.5;
-    dG = [G*dm.*dR(:,1)./norm_dR.^3, G*dm.*dR(:,2)./norm_dR.^3, G*dm.*dR(:,3)./norm_dR.^3];
-    ndG = [sum(dG(:,1)) sum(dG(:,2)) sum(dG(:,3))]/norm([sum(dG(:,1)) sum(dG(:,2)) sum(dG(:,3))]);
-    nfp = -fpoint(i,:)/norm(fpoint(i,:));
-    theta = ndG*nfp';
-    slope(i)=acos(theta)*180/pi;
+switch par_flg
+    case 'N'
+        for i =1:fnum
+            fpoint = [x(i)*ones(elemnum,1), y(i)*ones(elemnum,1), z(i)*ones(elemnum,1)];
+            dR = (centroid-fpoint);
+            norm_dR = (dR(:,1).^2+dR(:,2).^2+dR(:,3).^2).^0.5;
+            dG = [G*dm.*dR(:,1)./norm_dR.^3, G*dm.*dR(:,2)./norm_dR.^3, G*dm.*dR(:,3)./norm_dR.^3];
+            ndG = [sum(dG(:,1)) sum(dG(:,2)) sum(dG(:,3))]/norm([sum(dG(:,1)) sum(dG(:,2)) sum(dG(:,3))]);
+            nfp = -fpoint(i,:)/norm(fpoint(i,:));
+            theta = ndG*nfp';
+            slope(i)=acos(theta)*180/pi;
+        end
+    case 'Y'
+        parfor i =1:fnum
+            fpoint = [x(i)*ones(elemnum,1), y(i)*ones(elemnum,1), z(i)*ones(elemnum,1)];
+            dR = (centroid-fpoint);
+            norm_dR = (dR(:,1).^2+dR(:,2).^2+dR(:,3).^2).^0.5;
+            dG = [G*dm.*dR(:,1)./norm_dR.^3, G*dm.*dR(:,2)./norm_dR.^3, G*dm.*dR(:,3)./norm_dR.^3];
+            ndG = [sum(dG(:,1)) sum(dG(:,2)) sum(dG(:,3))]/norm([sum(dG(:,1)) sum(dG(:,2)) sum(dG(:,3))]);
+            nfp = -fpoint(i,:)/norm(fpoint(i,:));
+            theta = ndG*nfp';
+            slope(i)=acos(theta)*180/pi;
+        end
 end
 
 clear centroidfcentroiddG dm dR norm_dR fpoint;

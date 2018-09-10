@@ -10,3 +10,5 @@ https://sbn.psi.edu/pds/resource/erosshape.html
 
 iso2mesh library is required to run this program.  
 http://iso2mesh.sourceforge.net/cgi-bin/index.cgi
+
+Parallel Computing Toolbox is optional.
